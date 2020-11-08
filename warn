@@ -1,0 +1,30 @@
+const Discord = require('discord.js');
+module.exports = async (client, message, args) => {
+
+let {crearDB} = require("megadb") //Llamamos al constructor crearDB
+let warns = new crearDB("warns"); //Creamos la db con el constructor crearDB
+
+let usuario = message.mentions.members.first() || message.guild.members.resolve(args[0]) //Declaramos usuario como el primer miembro que se haya mencionado, Si no se menciono a ninguno pasamos a obtenerlo por ID suponiendo que args[0] es una ID
+let razon = args[1] ? args.slice(1).join(' ') : 'Not specified' //Declaramos la razon del aviso, Utilizamos un operador ternario (condicional ? true : false) para comprobar si se especifico una, si devuelve true agarramos args[1] en adelante y si devuelve false la razÃÂÃÂ³n sera igual a 'No especificada' 
+  const admin = new Discord.MessageEmbed()
+  .setDescription("`ERROR` You dont have required ADMINISTRATOR permissions")
+  .setFooter(`Executed by: ${message.author.tag}`, message.author.displayAvatarURL({dynamic: true, format: 'png'}))
+  .setColor('RED')
+    if(!message.member.permissions.has('ADMINISTRATOR')) return message.channel.send(admin)
+  const usuarioerror = new Discord.MessageEmbed()
+  .setDescription("`ERROR` Please make sure you ping someone")
+  .setFooter(`Executed by: ${message.author.tag}`, message.author.displayAvatarURL({dynamic: true, format: 'png'}))
+  .setColor('RED')
+if(!usuario) return message.channel.send(usuarioerror) //Verificamos si se menciono o especifico la ID de un usuario
+if(razon.length > 1024) return message.channel.send('Reason cant exced 1024 characters') //Verificamos si la longitud de la razÃÂ³n es mayor a 1024 para evitar errores con el embed, La longitud mÃÂ¡xima varÃÂ­a de lo que Discord te permita en el mensaje, En este caso es 1024 porque lo utilizarÃÂ© en un field
+if(!warns.tiene(`${message.guild.id}.${usuario.id}`)) warns.establecer(`${message.guild.id}.${usuario.id}`, 0) //Verificamos si la db no tiene datos guardados, En caso de que no tenga los establecemos
+warns.sumar(`${message.guild.id}.${usuario.id}`, 1) //Sumamos 1 al valor establecido previamente
+let embed = new Discord.MessageEmbed()
+.setTitle('User Warned')
+.addField('User:', `<@${usuario.id}>`)
+.addField('Mod:', `<@${message.author.id}>`)
+.addField('Reason:', razon)
+.setColor('RANDOM')
+message.channel.send(embed); //Enviamos el embed
+usuario.send(`You have been warned in ${message.guild.name} because: ${razon}`).catch(e => e)
+  }

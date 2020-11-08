@@ -1,0 +1,23 @@
+const Discord = require("discord.js")
+module.exports = async (client, message, args) => {
+
+let {crearDB} = require("megadb") //Llamamos al constructor crearDB
+let warnso = new crearDB("warns"); //Creamos la db con el constructor crearDB 
+let usuario = message.mentions.members.first() || message.guild.members.resolve(args[0])
+var user = message.mentions.users.first() || message.author;
+  
+    const usuarioerror = new Discord.MessageEmbed()
+  .setDescription("`ERROR` Please make sure you ping someone")
+  .setFooter(`Executed by: ${message.author.tag}`, message.author.displayAvatarURL({dynamic: true, format: 'png'}))
+  .setColor('RED')
+if(!usuario) return message.channel.send(usuarioerror)
+  
+let warns = await warnso.obtener(`${message.guild.id}.${usuario.id}`)//extrae informacion de la base de datos (warn_) 
+  if (warns == null) warns = 0 //si warns es null, warns se convierte en "0"
+    const embed = new Discord.MessageEmbed()//embed con la informacion extraia de lads bases de datos anteriores
+.setDescription("**Amount of warns: **" + warns)
+  .addField("Reasons:")
+  .setColor("RANDOM")
+ message.channel.send(embed)
+
+ }

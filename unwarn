@@ -1,0 +1,29 @@
+const Discord = require('discord.js');
+module.exports = async (client, message, args) => {
+
+let {crearDB} = require("megadb")//Definimos MegaDB
+let warns = new crearDB("warns"); //Buscamos Warn 
+
+  const admin = new Discord.MessageEmbed()
+  .setDescription("`ERROR` You dont have required ADMINISTRATOR permissions")
+  .setFooter(`Executed by: ${message.author.tag}`, message.author.displayAvatarURL({dynamic: true, format: 'png'}))
+  .setColor('RED')
+    if(!message.member.permissions.has('ADMINISTRATOR')) return message.channel.send(admin)
+
+let woser = message.mentions.members.first() //Definimos woser
+  const usuarioerror = new Discord.MessageEmbed()
+  .setDescription("`ERROR` Please make sure you ping someone")
+  .setFooter(`Executed by: ${message.author.tag}`, message.author.displayAvatarURL({dynamic: true, format: 'png'}))
+  .setColor('RED')
+if(!woser) return message.channel.send(usuarioerror)
+  
+  if(warns.tiene(`${message.guild.id}.${woser.id}`)) { //Buscamos los datos de Warns
+    let count = await warns.obtener(`${message.guild.id}.${woser.id}`) //hacemos count
+    warns.restar(`${message.guild.id}.${woser.id}`, 1) //Eliminamos 1 warn
+    const warmed = new Discord.MessageEmbed() //creamos embed
+    .setTitle("Warn Removed") //Titulo
+    .setDescription(`:bust_in_silhouette: ** User: ** <@${woser.id}>  \n :no_entry_sign:  ** Total Warns: ** \`${count}\` `) //Descripcion
+    .setColor("RANDOM") //Color Random
+    message.channel.send(warmed)
+  }
+    }
