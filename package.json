@@ -1,0 +1,42 @@
+{
+  "name": "sora-bot",
+  "version": "0.0.1",
+  "description": "acerca de? su bot",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "canvas": "^2.6.1",
+    "discord-auto-role": "^2.0.0",
+    "discord.js": "^12.4.0",
+    "express": "^4.17.1",
+    "humanize-duration": "^3.23.1",
+    "mega-dtbs": "^0.1.17",
+    "megadb": "^3.4.0",
+    "mongoose": "^5.10.13",
+    "ms": "^2.1.2",
+    "node-fetch": "^2.6.1",
+    "slot-machine": "^2.1.0",
+    "srv-util": "^1.0.2",
+    "yandex-translate-api": "^1.0.1",
+    "util": "^0.12.3",
+    "fs": "^0.0.2",
+    "path": "^0.12.7",
+    "quick.db": "^7.1.2",
+    "dateformat": "^3.0.3"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "repository": {
+    "url": "https://github.com/cratermaik"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}
